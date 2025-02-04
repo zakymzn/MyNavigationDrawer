@@ -11,12 +11,17 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.mynavigationdrawer.databinding.ActivityMainBinding
+import de.hdodenhof.circleimageview.CircleImageView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+
+    private lateinit var profileCircleImageView: CircleImageView
+    private var profileImageURL = "https://media.licdn.com/dms/image/v2/D5603AQE2zZKuO2xQDw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1676732654558?e=2147483647&v=beta&t=AAYznsVFu-ldgWOG61NplV0-L9JYNOmroRo4MgWvGsk"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,16 +34,21 @@ class MainActivity : AppCompatActivity() {
         binding.appBarMain.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
-                .setAnchorView(R.id.fab).show()
+                .show()
         }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
+        profileCircleImageView = navView.getHeaderView(0).findViewById(R.id.imageView)
+        Glide.with(this)
+            .load(profileImageURL)
+            .into(profileCircleImageView)
+
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow, R.id.nav_cart
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
